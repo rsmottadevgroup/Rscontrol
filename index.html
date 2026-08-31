@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Foco — Tarefas & Anotações</title>
+<meta name="description" content="Aplicativo minimalista de tarefas e anotações com comando de voz local, sem IA.">
+<meta name="theme-color" content="#F8F8F6">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ APP SHELL ============ -->
+<div class="app">
+
+  <!-- ---------- Sidebar (desktop) ---------- -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark">●</span>
+      <span class="brand-name">Foco</span>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Navegação principal">
+      <button class="nav-item is-active" data-view="dashboard">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="3" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="11" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="11" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/></svg>
+        <span>Painel</span>
+      </button>
+      <button class="nav-item" data-view="tasks">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><circle cx="5" cy="5" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M9 5H17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="5" cy="10" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M9 10H17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="5" cy="15" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M9 15H17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>Tarefas</span>
+      </button>
+      <button class="nav-item" data-view="notes">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><path d="M4 3.5h9L16.5 7v9.5a1 1 0 0 1-1 1h-11.5a1 1 0 0 1-1-1v-12a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13 3.5V7h3.5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <span>Anotações</span>
+      </button>
+      <button class="nav-item" data-view="calendar">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="13" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 8H17" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 2.5V5.5M13.5 2.5V5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>Calendário</span>
+      </button>
+      <button class="nav-item" data-view="settings">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2.6" stroke="currentColor" stroke-width="1.4"/><path d="M10 3.2v2M10 14.8v2M16.8 10h-2M5.2 10h-2M14.8 5.2l-1.4 1.4M6.6 13.4l-1.4 1.4M14.8 14.8l-1.4-1.4M6.6 6.6 5.2 5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>Configurações</span>
+      </button>
+    </nav>
+
+    <button class="sidebar-mic" id="sidebarMic" title="Comando de voz">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M10 12.5a2.5 2.5 0 0 0 2.5-2.5V5a2.5 2.5 0 0 0-5 0v5a2.5 2.5 0 0 0 2.5 2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.5a4.5 4.5 0 0 0 9 0M10 14.5V17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>Comando de voz</span>
+    </button>
+  </aside>
+
+  <!-- ---------- Main content ---------- -->
+  <main class="main">
+
+    <header class="topbar">
+      <h1 class="topbar-title" id="viewTitle">Painel</h1>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="topSearchBtn" title="Pesquisar" aria-label="Pesquisar">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M17 17 13.4 13.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn mic-btn-top" id="topMic" title="Comando de voz" aria-label="Comando de voz">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 12.5a2.5 2.5 0 0 0 2.5-2.5V5a2.5 2.5 0 0 0-5 0v5a2.5 2.5 0 0 0 2.5 2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.5a4.5 4.5 0 0 0 9 0M10 14.5V17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="search-bar" id="searchBar" hidden>
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M17 17 13.4 13.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <input type="text" id="searchInput" placeholder="Pesquisar tarefas e anotações…" autocomplete="off">
+      <button class="icon-btn" id="searchClose" aria-label="Fechar pesquisa">✕</button>
+    </div>
+
+    <!-- ===== Dashboard ===== -->
+    <section class="view" id="view-dashboard" data-view="dashboard">
+      <div class="stat-row">
+        <div class="stat-card">
+          <span class="stat-value" id="statPending">0</span>
+          <span class="stat-label">Pendentes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="statToday">0</span>
+          <span class="stat-label">Para hoje</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="statOverdue">0</span>
+          <span class="stat-label">Atrasadas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="statDone">0</span>
+          <span class="stat-label">Concluídas</span>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Hoje</h2>
+          </div>
+          <div class="list" id="dashTodayList"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Notas fixadas</h2>
+          </div>
+          <div class="list" id="dashPinnedNotes"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Tasks ===== -->
+    <section class="view" id="view-tasks" data-view="tasks" hidden>
+      <div class="view-toolbar">
+        <div class="filter-pills" id="taskFilters">
+          <button class="pill is-active" data-filter="all">Todas</button>
+          <button class="pill" data-filter="today">Hoje</button>
+          <button class="pill" data-filter="upcoming">Próximas</button>
+          <button class="pill" data-filter="overdue">Atrasadas</button>
+          <button class="pill" data-filter="done">Concluídas</button>
+        </div>
+        <button class="btn btn-primary" id="newTaskBtn">+ Nova tarefa</button>
+      </div>
+      <div class="list" id="taskList"></div>
+      <div class="empty-state" id="taskEmpty" hidden>
+        <p>Nenhuma tarefa por aqui.</p>
+        <span>Toque em "Nova tarefa" ou use o comando de voz.</span>
+      </div>
+    </section>
+
+    <!-- ===== Notes ===== -->
+    <section class="view" id="view-notes" data-view="notes" hidden>
+      <div class="view-toolbar">
+        <div class="filter-pills" id="noteFilters">
+          <button class="pill is-active" data-filter="all">Todas</button>
+          <button class="pill" data-filter="pinned">Fixadas</button>
+        </div>
+        <button class="btn btn-primary" id="newNoteBtn">+ Nova nota</button>
+      </div>
+      <div class="note-list" id="noteList"></div>
+      <div class="empty-state" id="noteEmpty" hidden>
+        <p>Nenhuma anotação ainda.</p>
+        <span>Toque em "Nova nota" ou use o comando de voz.</span>
+      </div>
+    </section>
+
+    <!-- ===== Calendar ===== -->
+    <section class="view" id="view-calendar" data-view="calendar" hidden>
+      <div class="cal-header">
+        <button class="icon-btn" id="calPrev" aria-label="Mês anterior">‹</button>
+        <h2 id="calMonthLabel">—</h2>
+        <button class="icon-btn" id="calNext" aria-label="Próximo mês">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="panel" style="margin-top:20px">
+        <div class="panel-header"><h2 id="calDayLabel">Selecione um dia</h2></div>
+        <div class="list" id="calDayList"></div>
+      </div>
+    </section>
+
+    <!-- ===== Settings ===== -->
+    <section class="view" id="view-settings" data-view="settings" hidden>
+      <div class="panel">
+        <div class="panel-header"><h2>Privacidade e voz</h2></div>
+        <p class="settings-copy">
+          O comando de voz utiliza o reconhecimento de fala disponível no navegador.
+          Nenhum sistema de IA é utilizado pelo aplicativo. Nenhuma gravação de áudio
+          é armazenada — apenas o texto reconhecido é processado, localmente, por regras.
+        </p>
+        <div class="settings-row">
+          <span>Suporte a reconhecimento de voz</span>
+          <span class="badge" id="voiceSupportBadge">Verificando…</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h2>Notificações</h2></div>
+        <div class="settings-row">
+          <span>Permitir lembretes de tarefas</span>
+          <button class="btn btn-ghost" id="notifPermBtn">Ativar</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h2>Dados</h2></div>
+        <p class="settings-copy">Todos os dados são armazenados localmente neste dispositivo (localStorage), sem envio para nenhum servidor.</p>
+        <div class="settings-row">
+          <span>Tarefas e notas salvas</span>
+          <span class="badge" id="dataCountBadge">—</span>
+        </div>
+        <div class="settings-row">
+          <button class="btn btn-danger" id="clearDataBtn">Apagar todos os dados</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ---------- Mobile bottom nav ---------- -->
+<nav class="bottom-nav" aria-label="Navegação móvel">
+  <button class="bn-item is-active" data-view="dashboard">
+    <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="3" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="11" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="11" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.4"/></svg>
+    <span>Painel</span>
+  </button>
+  <button class="bn-item" data-view="tasks">
+    <svg viewBox="0 0 20 20" fill="none"><circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M9 6H17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="5" cy="14" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M9 14H17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    <span>Tarefas</span>
+  </button>
+  <button class="bn-mic" id="bottomMic" aria-label="Comando de voz">
+    <svg viewBox="0 0 20 20" fill="none"><path d="M10 12.5a2.5 2.5 0 0 0 2.5-2.5V5a2.5 2.5 0 0 0-5 0v5a2.5 2.5 0 0 0 2.5 2.5Z" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 9.5a4.5 4.5 0 0 0 9 0M10 14.5V17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <button class="bn-item" data-view="notes">
+    <svg viewBox="0 0 20 20" fill="none"><path d="M4 3.5h9L16.5 7v9.5a1 1 0 0 1-1 1h-11.5a1 1 0 0 1-1-1v-12a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <span>Notas</span>
+  </button>
+  <button class="bn-item" data-view="calendar">
+    <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="13" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 8H17" stroke="currentColor" stroke-width="1.4"/></svg>
+    <span>Agenda</span>
+  </button>
+</nav>
+
+<!-- ---------- Floating quick-add (mobile) ---------- -->
+<button class="fab" id="fabBtn" aria-label="Adicionar">+</button>
+
+<!-- ================= MODALS ================= -->
+
+<!-- Task modal -->
+<div class="modal-overlay" id="taskModalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <div class="modal-header">
+      <h2 id="taskModalTitle">Nova tarefa</h2>
+      <button class="icon-btn" id="taskModalClose" aria-label="Fechar">✕</button>
+    </div>
+    <form class="modal-body" id="taskForm">
+      <label class="field">
+        <span>Título</span>
+        <input type="text" id="taskTitle" required placeholder="Ex.: Estudar JavaScript">
+      </label>
+      <label class="field">
+        <span>Descrição</span>
+        <textarea id="taskDescription" rows="2" placeholder="Detalhes (opcional)"></textarea>
+      </label>
+      <div class="field-row">
+        <label class="field">
+          <span>Data</span>
+          <input type="date" id="taskDate">
+        </label>
+        <label class="field">
+          <span>Horário</span>
+          <input type="time" id="taskTime">
+        </label>
+      </div>
+      <div class="field-row">
+        <label class="field">
+          <span>Prioridade</span>
+          <select id="taskPriority">
+            <option value="low">Baixa</option>
+            <option value="medium" selected>Média</option>
+            <option value="high">Alta</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Categoria</span>
+          <input type="text" id="taskCategory" placeholder="Ex.: Estudos">
+        </label>
+      </div>
+      <label class="field-checkbox">
+        <input type="checkbox" id="taskReminder">
+        <span>Criar lembrete</span>
+      </label>
+      <input type="hidden" id="taskId">
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="taskDeleteBtn" hidden>Excluir</button>
+        <div class="modal-actions-right">
+          <button type="button" class="btn btn-ghost" id="taskCancelBtn">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Note modal -->
+<div class="modal-overlay" id="noteModalOverlay" hidden>
+  <div class="modal modal-note" role="dialog" aria-modal="true" aria-labelledby="noteModalTitle">
+    <div class="modal-header">
+      <h2 id="noteModalTitle">Nova nota</h2>
+      <button class="icon-btn" id="noteModalClose" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="text" id="noteTitle" class="note-title-input" placeholder="Título">
+      <textarea id="noteContent" class="note-content-input" placeholder="Escreva aqui…" rows="12"></textarea>
+      <input type="hidden" id="noteId">
+      <div class="note-meta" id="noteMeta"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="noteDeleteBtn" hidden>Excluir</button>
+        <div class="modal-actions-right">
+          <button type="button" class="btn btn-ghost" id="notePinBtn">Fixar</button>
+          <button type="button" class="btn btn-primary" id="noteSaveBtn">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm dialog (generic, used for destructive actions & voice confirmations) -->
+<div class="modal-overlay" id="confirmOverlay" hidden>
+  <div class="modal modal-confirm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-header">
+      <h2 id="confirmTitle">Confirmar</h2>
+    </div>
+    <div class="modal-body">
+      <p id="confirmBody"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="confirmCancel">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="confirmOk">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Voice overlay -->
+<div class="voice-overlay" id="voiceOverlay" hidden>
+  <div class="voice-panel">
+    <button class="icon-btn voice-close" id="voiceClose" aria-label="Fechar">✕</button>
+    <div class="voice-orb" id="voiceOrb">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M10 12.5a2.5 2.5 0 0 0 2.5-2.5V5a2.5 2.5 0 0 0-5 0v5a2.5 2.5 0 0 0 2.5 2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.5a4.5 4.5 0 0 0 9 0M10 14.5V17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+    <p class="voice-status" id="voiceStatus">Toque para falar</p>
+    <p class="voice-transcript" id="voiceTranscript"></p>
+    <p class="voice-privacy">O comando de voz utiliza o reconhecimento de fala do navegador. Nenhum sistema de IA é utilizado pelo aplicativo.</p>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/storage.js"></script>
+<script src="js/dateParser.js"></script>
+<script src="js/commandParser.js"></script>
+<script src="js/notification.js"></script>
+<script src="js/tasks.js"></script>
+<script src="js/notes.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
